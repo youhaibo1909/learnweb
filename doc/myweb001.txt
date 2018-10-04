@@ -1,0 +1,38 @@
+
+[root@net01 ~]# yum install python-virtualenv -y
+[root@net01 ~]# virtualenv VENV
+[root@net01 ~]# source VENV/bin/activate
+(VENV) [root@net01 ~]# 
+(VENV) [root@net01 ~]# pip install django
+(VENV) [root@net01 ~]# django-admin startproject myweb
+(VENV) [root@net01 ~]# cd myweb/
+(VENV) [root@net01 myweb]# ls
+manage.py  myweb
+(VENV) [root@net01 myweb]# git init
+初始化空的 Git 版本库于 /root/myweb/.git/
+(VENV) [root@net01 myweb]# git remote add origin https://github.com/youhaibo1909/learnweb.git
+(VENV) [root@net01 myweb]# git config --global user.name "youhaibo1909"
+(VENV) [root@net01 myweb]# git config --global user.email "youhaibo1990@163.com"
+
+(VENV) [root@net01 myweb]# git add .
+(VENV) [root@net01 myweb]# git commit -m "first commit"
+(VENV) [root@net01 myweb]# git push origin master
+Username for 'https://github.com': youhaibo1990@163.com
+Password for 'https://youhaibo1990@163.com@github.com': 
+Counting objects: 8, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (8/8), 2.57 KiB | 0 bytes/s, done.
+Total 8 (delta 0), reused 0 (delta 0)
+remote: 
+remote: Create a pull request for 'master' on GitHub by visiting:
+remote:      https://github.com/youhaibo1909/learnweb/pull/new/master
+remote: 
+To https://github.com/youhaibo1909/learnweb.git
+ * [new branch]      master -> master
+(VENV) [root@net01 myweb]# 
+
+(VENV) [root@net01 myweb]# pip freeze > requirements.txt
+(VENV) [root@net01 myweb]# git add .
+(VENV) [root@net01 myweb]# git commit -m "add requirements.txt"
+(VENV) [root@net01 myweb]# git push
