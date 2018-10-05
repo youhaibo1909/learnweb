@@ -1,0 +1,105 @@
+
+#1.在mblog目录下创建独立项目
+
+[root@net01 ~]# source VENV/bin/activate
+(VENV) [root@net01 ~]# cd myweb/
+(VENV) [root@net01 myweb]# django-admin startproject mblog
+(VENV) [root@net01 myweb]# cd mblog/
+(VENV) [root@net01 mblog]# ls
+manage.py  mblog
+(VENV) [root@net01 mblog]# python manage.py startapp mainsite
+(VENV) [root@net01 mblog]# cd ../
+(VENV) [root@net01 myweb]# tree mblog      
+mblog
+├── mainsite
+│   ├── admin.py
+│   ├── apps.py
+│   ├── __init__.py
+│   ├── migrations
+│   │   └── __init__.py
+│   ├── models.py
+│   ├── tests.py
+│   └── views.py
+├── manage.py
+└── mblog
+    ├── __init__.py
+    ├── __init__.pyc
+    ├── settings.py
+    ├── settings.pyc
+    ├── urls.py
+    └── wsgi.py
+
+3 directories, 14 files
+(VENV) [root@net01 myweb]# pwd
+
+
+#2.上传到github中
+(VENV) [root@net01 mblog]# cd ../
+(VENV) [root@net01 myweb]# ls
+app  db.sqlite3  doc  manage.py  mblog  myhtml  myweb  requirements.txt
+(VENV) [root@net01 myweb]# git add .
+(VENV) [root@net01 myweb]# git push
+
+
+
+#3.遇到的问题：
+mblog/settings.py修改：
+LANGUAGE_CODE = 'zh-hans'
+TIME_ZONE = 'Asia/Shanghai'
+
+  File "/root/VENV/lib/python2.7/site-packages/django/utils/translation/trans_real.py", line 134, in __init__
+    raise IOError("No translation files found for default language %s." % settings.LANGUAGE_CODE)
+IOError: No translation files found for default language zh_Hans.
+
+
+#4. 生成数据库db.sqlite3
+(VENV) [root@net01 mblog]# python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, sessions
+Running migrations:
+  Applying contenttypes.0001_initial... OK
+  Applying auth.0001_initial... OK
+  Applying admin.0001_initial... OK
+  Applying admin.0002_logentry_remove_auto_add... OK
+  Applying contenttypes.0002_remove_content_type_name... OK
+  Applying auth.0002_alter_permission_name_max_length... OK
+  Applying auth.0003_alter_user_email_max_length... OK
+  Applying auth.0004_alter_user_username_opts... OK
+  Applying auth.0005_alter_user_last_login_null... OK
+  Applying auth.0006_require_contenttypes_0002... OK
+  Applying auth.0007_alter_validators_add_error_messages... OK
+  Applying auth.0008_alter_user_username_max_length... OK
+  Applying sessions.0001_initial... OK
+(VENV) [root@net01 mblog]# 
+
+
+#5.数据库模型生效，生成实际的数据库
+(VENV) [root@net01 mblog]# python manage.py makemigrations mainsite
+Migrations for 'mainsite':
+  mainsite/migrations/0001_initial.py
+    - Create model Post
+(VENV) [root@net01 mblog]# python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, mainsite, sessions
+Running migrations:
+  Applying mainsite.0001_initial... OK
+(VENV) [root@net01 mblog]# 	
+	
+	
+#6.创建admin用户admin/123qwe123 (email:you@qq.com)
+
+(VENV) [root@net01 mblog]# python manage.py createsuperuser
+Username (leave blank to use 'root'): admin
+Email address: youh^H^H
+Error: Enter a valid email address.
+Email address: you@qq.com
+Password: 
+Password (again): 
+Superuser created successfully.
+	
+#7.启动服务
+(VENV) [root@net01 mblog]# python manage.py runserver 0.0.0.0:8080
+
+#8.允许所有主机访问
+/mblog/mblog/settings.py
+ALLOWED_HOSTS = ['*']
